@@ -1,0 +1,36 @@
+public class DaemonThreadExample {
+    public static void main(String[] args) {
+        // 1. Create a daemon thread simulating a background task
+        Thread daemonThread = new Thread(() -> {
+            try {
+                System.out.println("Daemon thread: Started and running background task...");
+                
+                // Sleep for 5 seconds
+                Thread.sleep(5000);
+                
+                // This line will NOT print because the JVM terminates before 5 seconds pass
+                System.out.println("Daemon thread: Background task completed."); 
+            } catch (InterruptedException e) {
+                System.out.println("Daemon thread interrupted.");
+            }
+        });
+
+        // Explicitly set the thread as a daemon thread before starting it
+        daemonThread.setDaemon(true);
+
+        // 2. Start the daemon thread
+        daemonThread.start();
+
+        // 3. Main thread performs its own work (sleeping for 2 seconds)
+        try {
+            System.out.println("Main thread: Continuing to do other work...");
+            
+            // Sleep for 2 seconds
+            Thread.sleep(2000);
+            
+            System.out.println("Main thread: Finished its work and exiting.");
+        } catch (InterruptedException e) {
+            System.out.println("Main thread interrupted.");
+        }
+    }
+}
